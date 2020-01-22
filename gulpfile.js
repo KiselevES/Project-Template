@@ -8,6 +8,7 @@ var gulp = require('gulp'),
     clear = require('del'),
     autoprefixer = require('gulp-autoprefixer'),
     sourceMaps = require('gulp-sourcemaps'),
+    stripCssComments = require('gulp-strip-css-comments'),
     spritesmith = require('gulp.spritesmith');
 
 gulp.task('sass', function () {
@@ -66,6 +67,7 @@ gulp.task('clean', async function () {
 
 gulp.task('build', async function () {
     gulp.src('app/css/main.min.css')
+        .pipe(stripCssComments())
         .pipe(gulp.dest('dist/css'));
 
     gulp.src('app/fonts/**/*')
