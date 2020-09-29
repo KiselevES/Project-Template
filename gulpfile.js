@@ -40,14 +40,10 @@ gulp.task('code', () => {
         .pipe(browserSync.reload({stream: true}))
 });
 
-// gulp.task('myScripts', () => {
-//     return gulp.src('app/importJS/**/*.js')
-//         .pipe(browserSync.reload({stream: true}))
-// });
-
 gulp.task('scripts', () => {
     return gulp.src([
-        'app/importJS/main.js'
+        'app/importJS/main.js',
+        //'app/importJS/second.js'
     ])
         .pipe(sourceMaps.init())
         .pipe(concat('js.min.js'))
@@ -60,8 +56,12 @@ gulp.task('scripts', () => {
         .pipe(browserSync.reload({stream: true}))
 });
 
+gulp.task('clearjs', ()=>{
+    return clear.sync('app/js/js.js')
+})
+
 gulp.task('spritesmith', () => {
-    var spriteData = gulp.src('app/sprites/**/*')
+    const spriteData = gulp.src('app/sprites/**/*')
         .pipe(spritesmith({
             imgName: 'sprite.png',
             cssName: '_sprite.css' //необходимо отредактировать пути к спрайтам
@@ -81,8 +81,8 @@ gulp.task('build', async () => {
         .pipe(stripCssComments())
         .pipe(gulp.dest('dist/css'));
 
-    // gulp.src('app/fonts/ **/*')
-    //     .pipe(gulp.dest('dist/fonts'));
+    gulp.src('app/fonts/ **/*')
+        .pipe(gulp.dest('dist/fonts'));
 
     gulp.src('app/js/**/*')
         .pipe(babel({
